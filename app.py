@@ -39,7 +39,6 @@ def add_user_to_g():
     else:
         g.user = None
 
-    # why not this? g.user = User.query.get(session.get[CURR_USER_KEY], None) 
 
 def do_login(user):
     """Log in user."""
@@ -194,7 +193,7 @@ def add_follow(follow_id):
     g.user.following.append(followed_user)
     db.session.commit()
 
-    return redirect(f"/users/{g.user.id}/following")
+    return redirect(request.referrer)
 
 
 @app.route('/users/stop-following/<int:follow_id>', methods=['POST'])
@@ -209,7 +208,7 @@ def stop_following(follow_id):
     g.user.following.remove(followed_user)
     db.session.commit()
 
-    return redirect(f"/users/{g.user.id}/following")
+    return redirect(request.referrer)
 
 
 @app.route('/users/profile', methods=["GET", "POST"])
